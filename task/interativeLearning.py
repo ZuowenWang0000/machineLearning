@@ -37,7 +37,47 @@ for i in range(21000):
 
 slotSize = 2100
 
-for i in range (int(21000/slotSize)):
-    lp = LabelSpreading(kernel="knn", gamma=20, n_neighbors=15, alpha=0.05, max_iter=100, tol=0.001, n_jobs=1)
-    lp.fit(X, y)
+n_total_samples = 30000
+n_labeled_points = 9000
+
+unlabeled_indices = np.arange(n_total_samples)[n_labeled_points:]
+
+# for i in range (int(21000/slotSize)):
+#     lp = LabelSpreading(kernel="knn", gamma=20, n_neighbors=15, alpha=0.05, max_iter=100, tol=0.1, n_jobs=-1)
+#     lp.fit(X, y)
+#     y = lp.transduction_
+#     print(y)
+#     pred_entropies = stats.distributions.entropy(lp.label_distributions_.T)
+#
+#     # select up to 5 digit examples that the classifier is most uncertain about
+#     uncertain_index = np.argsort(pred_entropies)[::-1]
+#     uncertain_index = uncertain_index[np.in1d(uncertain_index, unlabeled_indices)][:21000-(i+1)*slotSize]
+#     print(uncertain_index)
+#     print(uncertain_index.shape)
+#
+#     count = 0
+#     for j in range(uncertain_index.shape[0]):
+#         count = count + 1
+#         ind = uncertain_index[j]
+#         y[ind] = -1
+#     print(count)
+# np.savetxt('recursiveLabels.csv',y,delimiter = ',')
+
+sanwan = np.loadtxt(open('recursiveLabels.csv'),delimiter = ',')
+
+nn = neural_network.MLPClassifier(hidden_layer_sizes=(1024, ),activation= 'relu', solver='adam', alpha=1,
+learning_rate='adaptive', learning_rate_init=0.001, power_t=0.5, shuffle=True,
+    random_state=None, tol=0.0000001, verbose=True, max_iter = 400, early_stopping=True,validation_fraction=0.05,momentum=0.9,
+nesterovs_momentum=True, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
+
+nn.fit(X,sanwan)
+
+validate = nn.predict(features)
+print(accuracy_score(lables,validate))
+
+testReulst = nn.predict(sklearn.preprocessing.scale(test))
+
+np.savetxt('lastTry2.csv',testReulst,delimiter = ',')
+
+
 
