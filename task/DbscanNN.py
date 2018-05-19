@@ -107,7 +107,7 @@ print(all_labels.shape)
 
 nn = neural_network.MLPClassifier(hidden_layer_sizes=(1024, ),activation= 'relu', solver='adam', alpha=0.1,
 learning_rate='constant', learning_rate_init=0.001, power_t=0.5, shuffle=True,
-    random_state=None, tol=0.0001, verbose=False, momentum=0.9,
+    random_state=None, tol=0.0001, verbose=True, momentum=0.9,
 nesterovs_momentum=True, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
 
 nn.fit(all_data,all_labels)
