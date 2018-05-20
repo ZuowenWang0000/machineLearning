@@ -32,7 +32,7 @@ print(features.size)
 features = sklearn.preprocessing.scale(features)
 train_unlabeled = sklearn.preprocessing.scale(np.array(train_unlabeled))
 
-gmm = gp.GaussianProcessClassifier(kernel=None, optimizer='fmin_l_bfgs_b', n_restarts_optimizer=0, max_iter_predict=100, warm_start=False, copy_X_train=True, random_state=None, multi_class='one_vs_rest', n_jobs=1)
+gmm =mi.GaussianMixture(n_components=3, covariance_type='full', tol=0.001, reg_covar=1e-06, max_iter=100, n_init=1, init_params='kmeans', weights_init=None, means_init=None, precisions_init=None, random_state=None, warm_start=False, verbose=0, verbose_interval=10)
 
 gmm.fit(features,lables)
 
