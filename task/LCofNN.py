@@ -33,7 +33,7 @@ trainingSetLabels = lables
 X = sklearn.preprocessing.scale(features)
 y = lables
 
-params_range =[(1024,),(1024,1024,),(1024,1024,1024,),(512,512,512,),(1024,1024,1024,1024,)]
+params_range =[(512,),(1024,),(2048,),(256,256,256,256,256,256,256,),(500)]
 
 clf1 = neural_network.MLPClassifier(hidden_layer_sizes=(256, ),activation= 'relu', solver='adam', alpha=0.1,
 learning_rate='constant', learning_rate_init=0.001, power_t=0.5, shuffle=True,
