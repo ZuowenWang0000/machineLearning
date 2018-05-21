@@ -33,14 +33,12 @@ trainingSetLabels = lables
 X = sklearn.preprocessing.scale(features)
 y = lables
 
-params_range =[10,1,0.1,0.01,0.001,0.0001]
+params_range =[0.1,0.01,0.0001,0.00001]
 
-clf1 = neural_network.MLPClassifier(hidden_layer_sizes=(1024, ),activation= 'relu', solver='adam', alpha=0.001,
-learning_rate='constant', learning_rate_init=0.0001, power_t=0.5, shuffle=True,
-    random_state=None, tol=0.00001, verbose=True, momentum=0.9,
-nesterovs_momentum=True, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
+clf1 = svm.SVC(C=1.0, kernel='rbf', degree=3, gamma='auto', coef0=0.0, shrinking=True, probability=False, tol=0.001, cache_size=200, class_weight=None, verbose=True, max_iter=-1, decision_function_shape='ovr', random_state=2)
 
-train_scores, test_scores = validation_curve(estimator = clf1, X = X, y = lables, param_name = 'learning_rate_init', param_range=params_range, cv = 10)
+
+train_scores, test_scores = validation_curve(estimator = clf1, X = X, y = lables, param_name = 'tol', param_range=params_range, cv = 10)
 
 train_mean = np.mean(train_scores, axis= 1)
 train_std = np.std(train_scores, axis = 1)
@@ -60,11 +58,12 @@ plt.fill_between(params_range, test_mean + test_std, test_mean-test_std, alpha =
 plt.grid()
 plt.xscale('log')
 plt.legend(loc = 'lower right')
-plt.xlabel('learning_rate_init')
+plt.xlabel('tol')
 plt.ylabel('accuracy')
 plt.ylim([0.8,1.0])
 plt.show()
 
+print("finished")
 
 
 

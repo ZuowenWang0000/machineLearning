@@ -33,7 +33,7 @@ X = sklearn.preprocessing.scale(features)
 y = lables
 
 
-clf1 = neural_network.MLPClassifier(hidden_layer_sizes=(512,512,512,),activation= 'relu', solver='adam', alpha=0.1,
+clf1 = neural_network.MLPClassifier(hidden_layer_sizes=(1024,),activation= 'relu', solver='adam', alpha=0.1,
 learning_rate='constant', learning_rate_init=0.001, power_t=0.5, shuffle=True,
     random_state=None, tol=0.1, verbose=False, momentum=0.9,
 nesterovs_momentum=True, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
@@ -48,9 +48,10 @@ clf3 = RandomForestClassifier(n_estimators=800, criterion='entropy', max_depth=N
 
 eclf = VotingClassifier(estimators=[('lr', clf1), ('rf', clf2), ('gnb', clf3)], voting='hard')
 
-for clf, name in zip([clf1, clf2, clf3, eclf], ['neural networks', 'svc', 'random forest', 'Ensemble']):
-    scores = cross_val_score(clf, X, y, cv=5, scoring='accuracy')
-    print("Accuracy: %0.2f (+/- %0.2f) [%s]" % (scores.mean(), scores.std(), name))
+###################################CROSS VALIDATION AND GRID SEARCH#####################################################
+# for clf, name in zip([clf1, clf2, clf3, eclf], ['neural networks', 'svc', 'random forest', 'Ensemble']):
+#     scores = cross_val_score(clf, X, y, cv=5, scoring='accuracy')
+#     print("Accuracy: %0.2f (+/- %0.2f) [%s]" % (scores.mean(), scores.std(), name))
 
 
 # params = {'lr__hidden_layer_sizes': [(256,),(512,)], 'rf__C':[1,5]}
@@ -62,6 +63,13 @@ for clf, name in zip([clf1, clf2, clf3, eclf], ['neural networks', 'svc', 'rando
 # print("Accuracy: %0.2f (+/- %0.2f) [%s]" % (scores.mean(), scores.std()))
 
 # grid = grid.fit(X, y)
-#
-print("800 estimators in random forest")
+##########################################################################################################################
+eclf.fit(X,y)
+tempResult21000 = eclf.predict(sklearn.preprocessing.scale(train_unlabeled))
 
+np.savetxt('tempRestul21000.csv',tempResult21000,delimiter = ',')
+
+print("finished")
+print(clf1)
+print(clf2)
+print(clf3)

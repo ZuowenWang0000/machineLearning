@@ -33,14 +33,12 @@ trainingSetLabels = lables
 X = sklearn.preprocessing.scale(features)
 y = lables
 
-params_range =[10,1,0.1,0.01,0.001,0.0001]
+params_range =[10,50,200,500,1000,5000]
 
-clf1 = neural_network.MLPClassifier(hidden_layer_sizes=(1024, ),activation= 'relu', solver='adam', alpha=0.001,
-learning_rate='constant', learning_rate_init=0.0001, power_t=0.5, shuffle=True,
-    random_state=None, tol=0.00001, verbose=True, momentum=0.9,
-nesterovs_momentum=True, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
+clf1 = RandomForestClassifier(n_estimators=800, criterion='entropy', max_depth=None, min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features='auto', max_leaf_nodes=None, min_impurity_decrease=0.0, min_impurity_split=None, bootstrap=True, oob_score=False, n_jobs=1, random_state=None, verbose=0, warm_start=False, class_weight=None)
 
-train_scores, test_scores = validation_curve(estimator = clf1, X = X, y = lables, param_name = 'learning_rate_init', param_range=params_range, cv = 10)
+
+train_scores, test_scores = validation_curve(estimator = clf1, X = X, y = lables, param_name = 'n_estimators', param_range=params_range, cv = 5)
 
 train_mean = np.mean(train_scores, axis= 1)
 train_std = np.std(train_scores, axis = 1)
@@ -60,7 +58,7 @@ plt.fill_between(params_range, test_mean + test_std, test_mean-test_std, alpha =
 plt.grid()
 plt.xscale('log')
 plt.legend(loc = 'lower right')
-plt.xlabel('learning_rate_init')
+plt.xlabel('n_estimators')
 plt.ylabel('accuracy')
 plt.ylim([0.8,1.0])
 plt.show()
