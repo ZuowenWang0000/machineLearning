@@ -1,0 +1,72 @@
+\documentclass[a4paper,14pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}     
+\usepackage[utf8]{inputenc}
+\title{%
+  \LARGE ENGG 5103 Course Project Report\\
+  \Large  a study about text classification
+  }
+\author{
+  Zuowen Wang\\
+  \texttt{1155123906@link.cuhk.edu.hk} \\
+  \and
+  Xinyuan Zhang\\
+  \texttt{1155123300@link.cuhk.edu.hk} \\
+}
+\date{November 2018}
+% TODO LIST
+% 1. Introduction and related work
+%   a) what is the problem you want to solve?
+%   b) why is the problem important?
+%   c) what are the previous solutions by others?
+%   d) what you did to solve this problem?
+%   e) how are your results compared with others?
+%   f) what is the structure of this report?
+% 2. Problem description
+%   a) define your problem formally and precisely.
+%   b) what is the goal of the project?
+% 3. Data set and preprocessing
+%   a) what is the data source?
+%   b) show statistics of the raw data.
+%   c) elaborate the preprocessing steps explicitly.
+%   d) show statistics of the preprocessed data.
+% 4. Algorithms
+%   a) introduce the overview of your project.
+%   b) elaborate how each algorithm is applied.
+%   c) state the reasons why you choose those algorithms
+% 5. Results and Analysis
+%   a) use tables and graphs.
+%   b) use quantitative values.
+%   c) do the results match your expectation and why?
+%   d) what knowledge have you learned from the results?
+%   e) limitations and further improvement of your project.
+% 6. Conclusion
+% 7. Task Allocation
+%   a) contribution of each group member
+% 8. References
+
+\begin{document}
+\maketitle
+\newpage
+\section{Introduction and related work}
+\Large
+%   a) what is the problem you want to solve?
+%   b) why is the problem important?
+\paragraph{}
+Due to the rapid development of social network these years, short to medium length texts are gradually dominating the Internet. Various user backgrounds on large social networks such as Twitter and Facebook result in difficulties recommending users the content they would like to view. One way to satisfy this demand is to extract ‘class’ from texts, namely text classification. Then based on the summarized topic information, we can do further meaningful operations accordingly.
+%   c) what are the previous solutions by others?
+\paragraph{}
+Numerous works have already been conducted in the past years. From the most recent application of neural networks in the field of natural language processing like ...  to more classical models including ...
+% TODO  TODO  TODO 
+
+%   d) what you did to solve this problem?
+\paragraph{}
+We first roughly tested different methods which where commonly used for classical short text classification tasks. Then we focused on feature engineering because we want to exploit the very limited information from limited information of short paragraphs. We also write a script to craw down new twitter posts, which are typically in short text format, to evaluate the performance 
+
+%   e) how are your results compared with others?
+% TODO  TODO  TODO 
+
+%   f) what is the structure of this report?
+% TODO  TODO  TODO 
+
+
+\end{document}
