@@ -20,7 +20,11 @@
   \Large  a study about text classification
   }
 \author{
-
+  Zuowen Wang\\
+  \texttt{1155123906@link.cuhk.edu.hk} \\
+  \and
+  Xinyuan Zhang\\
+  \texttt{1155123300@link.cuhk.edu.hk} \\
 }
 \date{November 2018}
 % TODO
@@ -73,7 +77,12 @@ TODO
 %   d) show statistics of the preprocessed data.
 \section{Data set and preprocessing}
 \subsection{what is the data source?}
-TODO
+We use three datasets, namely R8, R52 and 20 Newsgroups. The first two datasets are processed based on the Reuters 21578 datasets\cite{HB}, which is a well studied and broadly used datasets in the field of natural language processing and data mining. R8 dataset includes 8 classes and R52 contains 52 classes. Notice that the documents are not very evenly distributed among all the categories. 
+
+Compare to the Reuter's dataset, the 20 Newsgroups is a relatively new dataset. It is a collection of approximately 20,000 newsgroup documents, partitioned evenly across
+20 different categories.
+
+All datasets are naturally divided into train/test datasets when we download them. And all of them are already pre-processed with algorithms provided by the author \cite{myself}. In the later sections we will briefly introduce her preprocessing methods. Also we will show the statistics of datasets before and after preprocessing.
 \subsection{show statistics of the raw data}
 TODO
 \subsection{elaborate the preprocessing steps explicitly}
