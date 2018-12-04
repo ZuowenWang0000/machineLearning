@@ -46,11 +46,11 @@ Abstract section
 %   f) what is the structure of this report?
 \section{Introduction and Related Work}
 \subsection{What is the problem you want to solve?}
-Due to the rapid development of social network these years, short to medium length texts are gradually dominating the Internet. Various user backgrounds on large social networks such as Twitter and Facebook result in difficulties recommending users the content they would like to view. One way to satisfy this demand is to extract ‘class’ from texts, namely text classification. 
+\hspace{4mm} Due to the rapid development of social network these years, short to medium length texts are gradually dominating the Internet. Various user backgrounds on large social networks such as Twitter and Facebook result in difficulties recommending users the content they would like to view. One way to satisfy this demand is to extract ‘class’ from texts, namely text classification. 
 \subsection{Why is the problem important?}
-Then based on the summarized topic information, we can do further meaningful operations accordingly
+\hspace{4mm} Then based on the summarized topic information, we can do further meaningful operations accordingly
 \subsection{What are the previous solutions by others?}
-Various previous works have tried to tackle this problem and very successful results have been achieved. This problem is fundamentally a natural language processing problem so all the feature extraction and classification methods are inherited from these well studied domains.
+\hspace{4mm} Various previous works have tried to tackle this problem and very successful results have been achieved. This problem is fundamentally a natural language processing problem so all the feature extraction and classification methods are inherited from these well studied domains.
 
 Sriam, Fuhry, Demir, Ferhatosmanoglu and Demirbas \cite{SFDFD} use domain specific features extracted from the Twitter author's profile and text. They train and test their algorithm on a predefined set of generic classes such as News, Events, Opinions, Deals, and Private Messages. Lee, Palsetia, Narayanan, Patwary, Agrawal and Choudhary proposed in their work \cite{LPNPAC} an innovative network based approach apart from their study using classical natural language processing methods. Chen, Jin and Shen conduct their work based on the classical latent Dirichlet allocation model\cite{BNJ} by learning multi-granularity topics.\cite{CJS}
 \subsection{What you did to solve this problem?}
@@ -77,14 +77,44 @@ TODO
 %   d) show statistics of the preprocessed data.
 \section{Data set and preprocessing}
 \subsection{what is the data source?}
-We use three datasets, namely R8, R52 and 20 Newsgroups. The first two datasets are processed based on the Reuters 21578 datasets\cite{HB}, which is a well studied and broadly used datasets in the field of natural language processing and data mining. R8 dataset includes 8 classes and R52 contains 52 classes. Notice that the documents are not very evenly distributed among all the categories. 
+\hspace{4mm} We use three datasets, namely R8, R52 and 20 Newsgroups. The first two datasets are processed based on the Reuters 21578 datasets\cite{HB}, which is a well studied and broadly used datasets in the field of natural language processing and data mining. R8 dataset includes 8 classes and R52 contains 52 classes. Notice that the documents are not very evenly distributed among all the categories.
 
 Compare to the Reuter's dataset, the 20 Newsgroups is a relatively new dataset. It is a collection of approximately 20,000 newsgroup documents, partitioned evenly across
 20 different categories.
 
-All datasets are naturally divided into train/test datasets when we download them. And all of them are already pre-processed with algorithms provided by the author \cite{myself}. In the later sections we will briefly introduce her preprocessing methods. Also we will show the statistics of datasets before and after preprocessing.
+All datasets are naturally divided into train/test datasets when we download them. And all of them are already preprocessed with algorithms provided by the author \cite{myself}. In the later sections we will briefly introduce her preprocessing methods. Also we will show the statistics of datasets before and after preprocessing.
 \subsection{show statistics of the raw data}
-TODO
+\subsubsection{the Reuter-21578 dataset}
+\hspace{6mm}The Reuters-21578 collection is distributed in 22 files. Each of the first 21 files (reut2-000.sgm through reut2-020.sgm) contain 1000
+documents, while the last (reut2-021.sgm) contains 578 documents. The files are in SGML format.
+
+Each document contains the following tag:
+\bigbreak
+\textbf{<REUTERS TOPICS=?? LEWISSPLIT=?? CGISPLIT=?? OLDID=?? NEWID=??>}
+\bigbreak
+And each document ends with:
+\bigbreak
+\textbf{</REUTERS>}
+\bigbreak
+
+In the header of each file we care more about the topics information. Each document can have multiple topics. But for our training purpose we only do single label classification. We will mention later in the section 3.4 how we solve this problem.\par The dataset is divided into the 5-fold fashion for training and validation. The important statistics about the raw dataset is shown below.
+\begin{table}[h]
+\centering
+\label{my-label}
+\begin{tabular}{ccccc}
+\multicolumn{5}{c}{\textbf{Number of documents}}                       \\
+         & \textbf{Total} & \textbf{No label}     & \textbf{Unilabel}     & \textbf{Multi-Label}  \\
+\textbf{Training} & 9603  & 1828(19.0\%) & 6552(68.3\%) & 1223(12.7\%) \\
+\textbf{Test}     & 3299  & 280(8.5\%)   & 2581(78.2\%) & 438(13.3\%) 
+\end{tabular}
+\caption{statistics of Reuter-21578 dataset}
+\label{my-label}
+\end{table}
+
+\subsubsection{the 20 Newsgroups dataset}
+
+
+
 \subsection{elaborate the preprocessing steps explicitly}
 TODO
 \subsection{show statistics of the preprocessed data}
