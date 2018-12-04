@@ -1,19 +1,38 @@
-\documentclass[a4paper,14pt]{article}
-\usepackage[a4paper, margin=1in]{geometry}     
-\usepackage[utf8]{inputenc}
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
 \title{%
   \LARGE ENGG 5103 Course Project Report\\
   \Large  a study about text classification
   }
 \author{
-  Zuowen Wang\\
-  \texttt{1155123906@link.cuhk.edu.hk} \\
-  \and
-  Xinyuan Zhang\\
-  \texttt{1155123300@link.cuhk.edu.hk} \\
+
 }
 \date{November 2018}
-% TODO LIST
+% TODO
+
+% 8. References
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Abstract section
+\end{abstract}
 % 1. Introduction and related work
 %   a) what is the problem you want to solve?
 %   b) why is the problem important?
@@ -21,52 +40,119 @@
 %   d) what you did to solve this problem?
 %   e) how are your results compared with others?
 %   f) what is the structure of this report?
+\section{Introduction and Related Work}
+\subsection{What is the problem you want to solve?}
+Due to the rapid development of social network these years, short to medium length texts are gradually dominating the Internet. Various user backgrounds on large social networks such as Twitter and Facebook result in difficulties recommending users the content they would like to view. One way to satisfy this demand is to extract ‘class’ from texts, namely text classification. 
+\subsection{Why is the problem important?}
+Then based on the summarized topic information, we can do further meaningful operations accordingly
+\subsection{What are the previous solutions by others?}
+Various previous works have tried to tackle this problem and very successful results have been achieved. This problem is fundamentally a natural language processing problem so all the feature extraction and classification methods are inherited from these well studied domains.
+
+Sriam, Fuhry, Demir, Ferhatosmanoglu and Demirbas \cite{SFDFD} use domain specific features extracted from the Twitter author's profile and text. They train and test their algorithm on a predefined set of generic classes such as News, Events, Opinions, Deals, and Private Messages. Lee, Palsetia, Narayanan, Patwary, Agrawal and Choudhary proposed in their work \cite{LPNPAC} an innovative network based approach apart from their study using classical natural language processing methods. Chen, Jin and Shen conduct their work based on the classical latent Dirichlet allocation model\cite{BNJ} by learning multi-granularity topics.\cite{CJS}
+\subsection{What you did to solve this problem?}
+TODO
+\subsection{How are your results compared with others?}
+TODO
+\subsection{What is the structure of this report?}
+TODO
+
+
 % 2. Problem description
 %   a) define your problem formally and precisely.
 %   b) what is the goal of the project?
+\section{Problem description}
+\subsection{formal definition of our problem}
+TODO
+\subsection{What is the goal of the project}
+TODO
+
 % 3. Data set and preprocessing
 %   a) what is the data source?
 %   b) show statistics of the raw data.
 %   c) elaborate the preprocessing steps explicitly.
 %   d) show statistics of the preprocessed data.
+\section{Data set and preprocessing}
+\subsection{what is the data source?}
+TODO
+\subsection{show statistics of the raw data}
+TODO
+\subsection{elaborate the preprocessing steps explicitly}
+TODO
+\subsection{show statistics of the preprocessed data}
+
+
 % 4. Algorithms
 %   a) introduce the overview of your project.
 %   b) elaborate how each algorithm is applied.
 %   c) state the reasons why you choose those algorithms
+\section{Algorithms}
+\subsection{introduce the overview of your project}
+TODO
+\subsection{elaborate how each algorithm is applied}
+TODO
+\subsection{state the reasons why you choose those algorithms}
+
+
 % 5. Results and Analysis
 %   a) use tables and graphs.
 %   b) use quantitative values.
 %   c) do the results match your expectation and why?
 %   d) what knowledge have you learned from the results?
 %   e) limitations and further improvement of your project.
+\section{Results and Analysis}
+\subsection{}
+% * <wangzu@student.ethz.ch> 2018-11-26T11:02:40.895Z:
+%
+% ^.
 % 6. Conclusion
+\section{Conclusion}
+
+
 % 7. Task Allocation
 %   a) contribution of each group member
-% 8. References
+\section{Task Allocation}
 
-\begin{document}
-\maketitle
-\newpage
-\section{Introduction and related work}
-\Large
-%   a) what is the problem you want to solve?
-%   b) why is the problem important?
-\paragraph{}
-Due to the rapid development of social network these years, short to medium length texts are gradually dominating the Internet. Various user backgrounds on large social networks such as Twitter and Facebook result in difficulties recommending users the content they would like to view. One way to satisfy this demand is to extract ‘class’ from texts, namely text classification. Then based on the summarized topic information, we can do further meaningful operations accordingly.
-%   c) what are the previous solutions by others?
-\paragraph{}
-Numerous works have already been conducted in the past years. From the most recent application of neural networks in the field of natural language processing like ...  to more classical models including ...
-% TODO  TODO  TODO 
 
-%   d) what you did to solve this problem?
-\paragraph{}
-We first roughly tested different methods which where commonly used for classical short text classification tasks. Then we focused on feature engineering because we want to exploit the very limited information from limited information of short paragraphs. We also write a script to craw down new twitter posts, which are typically in short text format, to evaluate the performance 
 
-%   e) how are your results compared with others?
-% TODO  TODO  TODO 
+\subsection{How to add Tables}
 
-%   f) what is the structure of this report?
-% TODO  TODO  TODO 
+Use the table and tabular commands for basic tables --- see Table~\ref{tab:widgets}, for example. 
+
+\begin{table}
+\centering
+\begin{tabular}{l|r}
+Item & Quantity \\\hline
+Widgets & 42 \\
+Gadgets & 13
+\end{tabular}
+\caption{\label{tab:widgets}An example table.}
+\end{table}
+
+\subsection{How to write Mathematics}
+
+\LaTeX{} is great at typesetting mathematics. Let $X_1, X_2, \ldots, X_n$ be a sequence of independent and identically distributed random variables with $\text{E}[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$, and let
+\[S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
+      = \frac{1}{n}\sum_{i}^{n} X_i\]
+denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
+
+
+\subsection{How to create Sections and Subsections}
+
+Use section and subsections to organize your document. Simply use the section and subsection buttons in the toolbar to create them, and we'll handle all the formatting and numbering automatically.
+
+\subsection{How to add Lists}
+
+
+\subsection{How to add Citations and a References List}
+
+
+
+You can find a \href{https://www.overleaf.com/help/97-how-to-include-a-bibliography-using-bibtex}{video tutorial here} to learn more about BibTeX.
+
+We hope you find Overleaf useful, and please let us know if you have any feedback using the help menu above --- or use the contact form at \url{https://www.overleaf.com/contact}!
+
+\bibliographystyle{alpha}
+\bibliography{references}
 
 
 \end{document}
