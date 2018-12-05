@@ -33,7 +33,7 @@
 
 \begin{document}
 \maketitle
-
+\newpage
 \begin{abstract}
 Abstract section
 \end{abstract}
@@ -45,19 +45,19 @@ Abstract section
 %   e) how are your results compared with others?
 %   f) what is the structure of this report?
 \section{Introduction and Related Work}
-\subsection{What is the problem you want to solve?}
-\hspace{4mm} Due to the rapid development of social network these years, short to medium length texts are gradually dominating the Internet. Various user backgrounds on large social networks such as Twitter and Facebook result in difficulties recommending users the content they would like to view. One way to satisfy this demand is to extract ‘class’ from texts, namely text classification. 
-\subsection{Why is the problem important?}
+\subsection{What is the problem you want to solve}
+\hspace{4mm} Due to the rapid development of social network these years, short to medium length texts are gradually dominating the Internet. Various user backgrounds on large social networks such as Twitter and Facebook result in difficulties recommending users the content they would like to view. One way to satisfy this demand is to extract ‘class’ from texts, namely text classification. For this project, we are going to 
+\subsection{Why is the problem important}
 \hspace{4mm} Then based on the summarized topic information, we can do further meaningful operations accordingly
-\subsection{What are the previous solutions by others?}
+\subsection{What are the previous solutions by others}
 \hspace{4mm} Various previous works have tried to tackle this problem and very successful results have been achieved. This problem is fundamentally a natural language processing problem so all the feature extraction and classification methods are inherited from these well studied domains.
 
 Sriam, Fuhry, Demir, Ferhatosmanoglu and Demirbas \cite{SFDFD} use domain specific features extracted from the Twitter author's profile and text. They train and test their algorithm on a predefined set of generic classes such as News, Events, Opinions, Deals, and Private Messages. Lee, Palsetia, Narayanan, Patwary, Agrawal and Choudhary proposed in their work \cite{LPNPAC} an innovative network based approach apart from their study using classical natural language processing methods. Chen, Jin and Shen conduct their work based on the classical latent Dirichlet allocation model\cite{BNJ} by learning multi-granularity topics.\cite{CJS}
-\subsection{What you did to solve this problem?}
+\subsection{What you did to solve this problem}
 TODO
-\subsection{How are your results compared with others?}
+\subsection{How are your results compared with others}
 TODO
-\subsection{What is the structure of this report?}
+\subsection{What is the structure of this report}
 TODO
 
 
@@ -82,13 +82,12 @@ TODO
 Compare to the Reuter's dataset, the 20 Newsgroups is a relatively new dataset. It is a collection of approximately 20,000 newsgroup documents, partitioned evenly across
 20 different categories.
 
-All datasets are naturally divided into train/test datasets when we download them. And all of them are already preprocessed with algorithms provided by the author \cite{myself}. In the later sections we will briefly introduce her preprocessing methods. Also we will show the statistics of datasets before and after preprocessing.
+All documents are divided into train/test datasets when we download them. And all of them are already preprocessed with algorithms provided by the author \cite{myself}. In the later sections we will briefly introduce her preprocessing methods. Also we will show the statistics of datasets before and after preprocessing.
 \subsection{show statistics of the raw data}
 \subsubsection{the Reuter-21578 dataset}
-\hspace{6mm}The Reuters-21578 collection is distributed in 22 files. Each of the first 21 files (reut2-000.sgm through reut2-020.sgm) contain 1000
-documents, while the last (reut2-021.sgm) contains 578 documents. The files are in SGML format.
+\hspace{6mm}The Reuters-21578 dataset is stored in 22 files. For the first 21 files each contains 1000 documents, while the last file contains 578 documents. All files are in SGML format.
 
-Each document contains the following tag:
+Each document contains the following tag at the very beginning:
 \bigbreak
 \textbf{<REUTERS TOPICS=?? LEWISSPLIT=?? CGISPLIT=?? OLDID=?? NEWID=??>}
 \bigbreak
@@ -97,10 +96,11 @@ And each document ends with:
 \textbf{</REUTERS>}
 \bigbreak
 
-In the header of each file we care more about the topics information. Each document can have multiple topics. But for our training purpose we only do single label classification. We will mention later in the section 3.4 how we solve this problem.\par The dataset is divided into the 5-fold fashion for training and validation. The important statistics about the raw dataset is shown below.
+In the header of each file we care more about the topics information. Each document can have multiple topics. But for our training purpose we only do single label classification. We will mention later in the section 3.4 how we solve this problem.\par The dataset is divided into the 5-fold fashion for training and validation. The important statistics about the raw dataset is shown below. Notice that we will discard all documents with no label.
+\bigbreak
+\bigbreak
 \begin{table}[h]
 \centering
-\label{my-label}
 \begin{tabular}{ccccc}
 \multicolumn{5}{c}{\textbf{Number of documents}}                       \\
          & \textbf{Total} & \textbf{No label}     & \textbf{Unilabel}     & \textbf{Multi-Label}  \\
@@ -110,10 +110,10 @@ In the header of each file we care more about the topics information. Each docum
 \caption{statistics of Reuter-21578 dataset}
 \label{my-label}
 \end{table}
+\bigbreak
 
 \subsubsection{the 20 Newsgroups dataset}
-
-
+\hspace{4mm} The 20 Newsgroups dataset is catagorized into 20 different news types, each corresponding to a single topic lable, which makes it very useful for our task. Some of the topics are highly correlated to each other while others are totally unrelated.\cite{20news}
 
 \subsection{elaborate the preprocessing steps explicitly}
 TODO
@@ -155,17 +155,6 @@ TODO
 
 \subsection{How to add Tables}
 
-Use the table and tabular commands for basic tables --- see Table~\ref{tab:widgets}, for example. 
-
-\begin{table}
-\centering
-\begin{tabular}{l|r}
-Item & Quantity \\\hline
-Widgets & 42 \\
-Gadgets & 13
-\end{tabular}
-\caption{\label{tab:widgets}An example table.}
-\end{table}
 
 \subsection{How to write Mathematics}
 
@@ -190,7 +179,7 @@ You can find a \href{https://www.overleaf.com/help/97-how-to-include-a-bibliogra
 
 We hope you find Overleaf useful, and please let us know if you have any feedback using the help menu above --- or use the contact form at \url{https://www.overleaf.com/contact}!
 
-\bibliographystyle{alpha}
+\bibliographystyle{alphaurl}
 \bibliography{references}
 
 
