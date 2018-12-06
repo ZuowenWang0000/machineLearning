@@ -11,6 +11,8 @@
 %% Useful packages
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage[toc,page]{appendix}
 
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
@@ -70,12 +72,12 @@ TODO
 \subsection{What is the goal of the project}
 TODO
 
-% 3. Data set and preprocessing
+% 3. Dataset and preprocessing
 %   a) what is the data source?
 %   b) show statistics of the raw data.
 %   c) elaborate the preprocessing steps explicitly.
 %   d) show statistics of the preprocessed data.
-\section{Data set and preprocessing}
+\section{Dataset and preprocessing}
 \subsection{what is the data source?}
 We use three datasets, namely R8, R52 and 20 Newsgroups. The first two datasets are processed based on the Reuters 21578 datasets\cite{HB}, which is a well studied and broadly used datasets in the field of natural language processing and data mining. R8 dataset includes 8 classes and R52 contains 52 classes. Notice that the documents are not very evenly distributed among all the categories.
 
@@ -89,17 +91,17 @@ The Reuters-21578 dataset is stored in 22 files. For the first 21 files each con
 
 Each document contains the following tag at the very beginning:
 \bigbreak
-\textbf{<REUTERS TOPICS=?? LEWISSPLIT=?? CGISPLIT=?? OLDID=?? NEWID=??>}
+\small{\textbf{<REUTERS TOPICS=?? LEWISSPLIT=?? CGISPLIT=?? OLDID=?? NEWID=??>}}
 \bigbreak
 And each document ends with:
 \bigbreak
-\textbf{</REUTERS>}
+\small{\textbf{</REUTERS>}}
 \bigbreak
 
-In the header of each file we care more about the topics information. Each document can have multiple topics. But for our training purpose we only do single label classification. We will mention later in the section 3.4 how we solve this problem.\par The dataset is divided into the 5-fold fashion for training and validation. The important statistics about the raw dataset is shown below. Notice that we will discard all documents with no label.
+In the header of each file we care more about the topics information. Each document can have multiple topics. But for our training purpose we only do single label classification. We will mention later in the section 3.3 how we solved this problem.\par The dataset is divided into the 5-fold fashion for training and validation. The important statistics about the raw dataset is shown below. Notice that we will discard all documents with no label.
 \bigbreak
 \bigbreak
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \begin{tabular}{ccccc}
 \multicolumn{5}{c}{\textbf{Number of documents}}                       \\
@@ -107,38 +109,39 @@ In the header of each file we care more about the topics information. Each docum
 \textbf{Training} & 9603  & 1828(19.0\%) & 6552(68.3\%) & 1223(12.7\%) \\
 \textbf{Test}     & 3299  & 280(8.5\%)   & 2581(78.2\%) & 438(13.3\%) 
 \end{tabular}
-\caption{statistics of Reuters-21578 data set}
+\caption{statistics of Reuters-21578 dataset}
 \label{my-label}
 \end{table}
 \bigbreak
 
-\subsubsection{the 20 Newsgroups data set}
-The 20 Newsgroups data set is categorized into 20 different news types, each corresponding to a single topic label, which makes it very useful for our task. The topics and text material contained in this data set is relatively newer and not totally about politics or economics so it might be more helpful for our purpose, since we are testing the model on twitter text, the topics are more likely to be less serious. Although the situation really depends on who the authors are.
+\subsubsection{the 20 Newsgroups dataset}
+The 20 Newsgroups dataset is categorized into 20 different news types, each corresponding to a single topic label, which makes it very useful for our task. The topics and text material contained in this dataset is relatively newer and not totally about politics or economics so it might be more helpful for our purpose, since we are testing the model on twitter text, the topics are more likely to be less serious. Although the situation really depends on who the authors are.
 
-All documents in the 20 Newsgroups data set is partitioned into 5 folds and 2 folds are in the test set. The original data set contains 19997 text documents but the data set we use is already pre-processed by removing all the duplicates. Moreover, only the author and subject are kept in the header. Thus we got 18828 documents left.
+All documents in the 20 Newsgroups dataset is partitioned into 5 folds and 2 folds are in the test set. The original dataset contains 19997 text documents but the dataset we use is already pre-processed by removing all the duplicates. Moreover, only the author and subject are kept in the header. Thus we got 18828 documents left.
 
 Some of the topics are highly correlated to each other while others are totally unrelated.\cite{20news} We show the 20 news types below and partition them into different groups according to their topics.
 
 \bigbreak
 \bigbreak
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \begin{tabular}{|l|l|l|}
 \hline
 \begin{tabular}[c]{@{}l@{}}comp.graphics\\ comp.os.ms-windows.misc\\ comp.sys.ibm.pc.hardware\\ comp.sys.mac.hardware\\ comp.windows.x\end{tabular} & \begin{tabular}[c]{@{}l@{}}rec.autos\\ rec.motorcycles\\ rec.sport.baseball\\ rec.sport.hockey\end{tabular} & \begin{tabular}[c]{@{}l@{}}sci.crypt\\ sci.electronics\\ sci.med\\ sci.space\end{tabular}         \\ \hline
 misc.forsale                                                                                                                                        & \begin{tabular}[c]{@{}l@{}}talk.politics.misc\\ talk.politics.guns\\ talk.politics.mideas\end{tabular}      & \begin{tabular}[c]{@{}l@{}}talk.religion.misc\\ alt.atheism\\ soc.religion.christian\end{tabular} \\ \hline
 \end{tabular}
-\caption{category groups in the 20 Newsgroups data set}
+\caption{category groups in the 20 Newsgroups dataset}
 \label{my-label2}
 \end{table}
 
 \bigbreak
 \subsection{elaborate the preprocessing steps explicitly}
-\subsubsection{Preprocessing steps for the Reuters data set}
-For the Reuters 21578 data set we used a version which has already been preprocessed. Thus here we will introduce the method which the author used.
+\subsubsection{Preprocessing steps for the Reuters dataset}
+For the Reuters 21578 dataset we used a version which has already been preprocessed. Thus here we will introduce the method which the author used.
 \bigbreak
 \cite{myself} The preprocessing steps are listed as follow:
     \begin{enumerate}
+    \item Eliminate all duplicates, documents with no label and documents with multiple labels.
     \item \textbf{all-terms} Obtained from the original datasets by applying the following transformations:
     \begin{itemize}
         \item Substitute TAB, NEWLINE and RETURN characters by SPACE.
@@ -153,15 +156,52 @@ For the Reuters 21578 data set we used a version which has already been preproce
     \item \textbf{stemmed} Obtained from the previous file, by applying Porter's Stemmer to the remaining words. Information about stemming can be found here.
 \end{enumerate}
 
-We also want to add some our own comments here about the above preprocessing procedure. One major flaw is words like \textbf{\textit{the U.S.}} will be processed as \textbf{\textit{the u s}}. And if we further filter out all words with length shorter than a certain threshold, which is a very common approach in natural language processing, then we will lose a major information. Thus we prefer to define certain corner cases to keep words like \textbf{\textit{the U.S.}} as \textbf{\textit{US}} and do not delete them in later steps of the pipeline. Another issue is the stop word list the author uses might not be ideal for our purpose. But since we do not want to make our task too complicated we will stick to the stopwords list which the author uses. 
+We also want to add some our own comments here about the above preprocessing procedure. One major flaw is words like \textbf{\textit{the U.S.}} will be processed as \textbf{\textit{the u s}}. And if we further filter out all words with length shorter than a certain threshold, which is a very common approach in natural language processing, then we will lose a major information. Thus we prefer to define certain corner cases to keep words like \textbf{\textit{the U.S.}} as \textbf{\textit{USA}} and do not delete them in later steps of the pipeline. Another issue is the stop word list the author uses might not be ideal for our purpose. But since we do not want to make our task too complicated we will stick to the stopwords list which the author uses. 
 
-\subsubsection{Preprocessing steps for the 20 Newsgroups data set}
+\subsubsection{Preprocessing steps for the 20 Newsgroups dataset}
+The original 20 Newsgroups dataset contains many issues. For instance, it contains some duplicated file. Also the headers of the documents contains many information we do not need. Thus our group downloaded a version which already handled duplication and redundant header information.
 
-TODO
-
+%https://github.com/gokriznastic/20-newsgroups-text_classification/blob/master/Multinomial%20Naive%20Bayes-%20BOW%20with%20TF.ipynb
+Now we got proper textual documents but still it contains things we do not want including punctuation, tab, digit and many other symbols. So we use a script to further filter out them. The script will be attached in the appendix. The basic steps are very similar to the preprocessing procedure used in section 3.3.1. Thus we will not repeat it here again. The major difference here is that documents in this dataset are all single label. Thus, we can save the first step in the preprocessing pipeline.
 
 \subsection{show statistics of the preprocessed data}
+\subsubsection{statistics of the Reuters dataset after preprocessing}
+After we have deleted all documents with multi-labeled or no label, and also eliminated all duplicates we have 6532 training samples and 2568 validation samples left.
 
+Apart from that we also would like to see the most frequent words in the corpus. We wrote a script to achieve this which is included in the appendix B.
+\newpage
+Using that script we get the following list:
+    \begin{enumerate}
+    \item ('', 319390)
+    \item ('mln', 10985)
+    \item ('dlrs', 7498)
+    \item ('cts', 5654)
+    \item ('pct', 5560)
+    \item ('year', 4758)
+    \end{enumerate}
+    
+    \hspace{8mm}...
+
+Notice that we use a length threshold 3. That means we eliminate all words with length smaller than 3. But then we get some not very reasonable words in our list. 
+
+If we change the threshold to 4 the result gets much more meaningful:
+\begin{enumerate}
+\item('', 375353)
+\item('dlrs', 7498)
+\item('year', 4758)
+\item('loss', 3940)
+\item('company', 3177)
+\item('billion', 3019)
+\item('corp', 2226)
+\item('share', 2195)
+\item('profit', 2186)
+\item('bank', 1930)
+\end{enumerate}
+
+We can clearly see that this corpus focuses on business and economy. So the model we trained from this dataset might not generalize very well in other topics. Notice that the most frequent word '' is not an actual word but rather a placeholder for all the stopwords and words with length shorter than 4.
+
+
+\subsubsection{statistics of the 20 Newsgroups dataset after preprocessing}
 
 % 4. Algorithms
 %   a) introduce the overview of your project.
@@ -224,6 +264,93 @@ We hope you find Overleaf useful, and please let us know if you have any feedbac
 
 \bibliographystyle{alphaurl}
 \bibliography{references}
+\newpage
+\appendix
+\LARGE \textbf{Appendix}
+\section{A Python Function For Preprocessing}
+% the \\ insures the section title is centered below the phrase: AppendixA
+\begin{lstlisting}[basicstyle=\small]
+def preprocess(words):
+    #we'll make use of python's translate function,that maps one set of 
+    characters to another #we create an empty mapping table, the third 
+    argument allows us to list all of the characters #to remove during 
+    the translation process
+    
+    #first we will try to filter out some  unnecessary data like tabs
+    table = str.maketrans('', '', '\t')
+    words = [word.translate(table) for word in words]
+    
+    punctuations = (string.punctuation).replace("'", "") 
+    # the character: ' appears in a lot of stopwords and changes meaning 
+    of words if removed
+    #hence it is removed from the list of symbols that are to be discarded 
+    from the documents
+    
+    trans_table = str.maketrans('', '', punctuations)
+    stripped_words = [word.translate(trans_table) for word in words]
+    
+    #some white spaces may be added to the list of words, due to the 
+    translate function & nature of our documents
+    #we remove them below
+    words = [str for str in stripped_words if str]
+    
+    #some words are quoted in the documents & as we have not removed ' to 
+    maintain the integrity of some stopwords
+    #we try to unquote such words below
+    p_words = []
+    for word in words:
+        if (word[0] and word[len(word)-1] == "'"):
+            word = word[1:len(word)-1]
+        elif(word[0] == "'"):
+            word = word[1:len(word)]
+        else:
+            word = word
+        p_words.append(word)
+    words = p_words.copy()
+        
+    #we will also remove just-numeric strings as they do not have any 
+    significant meaning in text classification
+    words = [word for word in words if not word.isdigit()]
+    
+    #we will also remove single character strings
+    words = [word for word in words if not len(word) == 1]
+    
+    #after removal of so many characters it may happen that some strings 
+    have become blank, we remove those
+    words = [str for str in words if str]
+    
+    #we also normalize the cases of our words
+    words = [word.lower() for word in words]
+    
+    #we try to remove words with only 2 characters
+    words = [word for word in words if len(word) > 2]
+    
+    return words
+\end{lstlisting}
+\section{20 most frequent words in the corpus}
+% the \\ insures the section title is centered below the phrase: Appendix B
+\begin{lstlisting}[basicstyle=\small]
+from sklearn.feature_extraction import stop_words
+import collections
+stopwords = set(stop_words.ENGLISH_STOP_WORDS)
+stopwords.add('said')
+stopwords.add('reuter')
+print(type(stopwords))
+#remove stop words from the corpus and also words with length < 3
+for i, line in enumerate(train['text']):
+    for j, word in enumerate(line):
+        if word in stopwords or len(word) < 3:
+            line[j] = ""
+
+superLongList = []
+
+for line in enumerate(train['text']):
+    for word in line[1]:
+        superLongList.append(word)
+
+counter = collections.Counter(superLongList)
+print(counter.most_common(20))
+\end{lstlisting}
 
 
 \end{document}
