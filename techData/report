@@ -202,6 +202,23 @@ We can clearly see that this corpus focuses on business and economy. So the mode
 
 
 \subsubsection{statistics of the 20 Newsgroups dataset after preprocessing}
+By applying the same process for the Reuters dataset we get the 10 most frequent words for 20 Newsgroup dataset:
+\begin{enumerate}
+\item('', 1748310)
+\item('writes', 7844)
+\item('article', 6760)
+\item('people', 5972)
+\item('like', 5866)
+\item('just', 5600)
+\item('know', 5124)
+\item('think', 4528)
+\item('does', 4132)
+\item('time', 4093)
+\end{enumerate}
+
+We can see that the 20 Newsgroup dataset is more generalized and probably more about daily life instead of highly specialized. This indicate that in real experiment we might get a higher generalizing ability using the model trained from this dataset.
+
+
 
 % 4. Algorithms
 %   a) introduce the overview of your project.
@@ -209,11 +226,50 @@ We can clearly see that this corpus focuses on business and economy. So the mode
 %   c) state the reasons why you choose those algorithms
 \section{Algorithms}
 \subsection{introduce the overview of your project}
-TODO
-\subsection{elaborate how each algorithm is applied}
-TODO
-\subsection{state the reasons why you choose those algorithms}
+In this section we finally reached the essential parts of the natural language processing pipeline. We mainly combine different means of conducting feature extraction and different classifiers to detect which combination(s) is(are) the best for or short text classification task. 
 
+For feature engineering we tried two major categories, namely Bag-of-Word model based and word embedding based, including three methods.
+In the following section we will briefly discuss the theory behind both ways of modelling. 
+
+We test over several mainstream classifiers including Logistic Regression, Multinomial Naive Bayesian Classifier, SVM, and Neural Networks and also the classical Latent Dirichlet Model (LDA) which is particularly elegant in terms of mathematical reasoning.
+\subsection{elaborate how each algorithm is applied}
+All algorithms included in our project follows this basic flow chart. We already have mentioned our preprocessing procedure in previous chapter. We deploy TF-IDF, Count Vectorizor and Word2Vec feature engineering algorithms in order to get a feasible representation of our data. Then we feed these data points into our classifiers and train the models. Then we do cross validation in order to briefly check the descriptive ability of the models and also prevent the occurrence of over fitting. At last, we test the models on real Twitter text or other sorts of short texts.
+
+\begin{figure}[ht]
+\includegraphics[width=150mm]{pipeline.jpg}
+\caption{The Basic Pipeline of Text Classification \label{overflow}}
+\end{figure}
+
+\subsection{state the reasons why you choose those algorithms}
+Compare to the selection of classifier, feature extraction algorithm is more important in the context of modeling textual information. 
+
+For decades, linguists and computer scientists have been using methods in the field of linguistics. In the old days computer scientists and engineers would first parse a sentence into different grammatical blocks then build a syntax tree and do further analysis based on this type of strong grammar model. In order to achieve better perform in all subjects related to natural language processing researchers have to construct a super complicated parsing model and defining and adding new grammar rules to a database and later algorithms will do matching and other operations based on this database. This way of modeling natural language became unfeasible in computational complexity.
+
+A major breakthrough later occurred in this field. Some researchers proposed an innovative method of modeling human language, which is rather frequency based than artificially defining sets of sophisticated rules. The model does not focus on the grammatical relationship among the words within a sentence or among the sentences with in a document. It represents these complicated relationships as latent parameters which already have existed and mature statistical approaches to take care of. 
+
+Bag-of-Word (BoW) belongs to one of these models. It has very strong assumptions. BoW models the words within a document as "a bag of words". This means we do not consider the order of these words, namely the words are exchangeable within a document. Each document can be abstracted as a vector. The dimension of this vector equals to the number of all occurrence of words appear in a corpus which we want to study. And the scalar value in each dimension represents the frequency of the corresponding word. Usually the vector should be very sparse. And the whole corpus can be represented as an N*M sparse matrix, where N equals to the number of the documents in this corpus while M equals to the number of the vocabulary. Actually here is another implicit assumption but very few people would mention it. The BoW model also assumes exchangeability with in a corpus. This means that the order of documents in a corpus does not matter in the BoW model.
+
+\subsubsection{Counter Vectorizor}
+Based on the Bag-of-Word model there are two variants. The first one we apply is counter vectorizor. Let us demonstrate it with a toy corpus. Suppose our corpus C contains three documents D1, D2, D3. And these documents are as follow:\\
+\newline
+D1 = "Techniques for data mining is interesting"\\
+D2 = "But writing the report for Techniques for data mining is tiring"\\
+D3 = "But we have to write the report"\\
+Thus we have our features here:\\
+\newline
+\footnotesize{['but', 'data', 'for', 'have', 'interesting', 'is', 'mining', 'report', 'techniques', 'the', 'tiring', 'to', 'we', 'write', 'writing']}
+\newpage
+And our matrix looks as follow:
+\newline
+\newline
+\setcounter{MaxMatrixCols}{20}
+$\begin{bmatrix}
+0 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 1 & 2 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 1 & 1 & 0 
+\end{bmatrix} $
+
+\subsubsection{TF-IDF Vectorizor}
 
 % 5. Results and Analysis
 %   a) use tables and graphs.
