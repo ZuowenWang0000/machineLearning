@@ -4,6 +4,7 @@
 \usepackage[english]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{subcaption}
 
 %% Sets page size and margins
 \usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
@@ -17,28 +18,45 @@
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-\title{%
-  \LARGE ENGG 5103 Course Project Report\\
-  \Large  a study about text classification
-  }
-\author{
-  Zuowen Wang\\
-  \texttt{1155123906@link.cuhk.edu.hk} \\
-  \and
-  Xinyuan Zhang\\
-  \texttt{1155123300@link.cuhk.edu.hk} \\
-}
-\date{November 2018}
-% TODO
-
-% 8. References
 
 \begin{document}
+
+\title{%
+  \LARGE \textbf{ENGG 5103 Course Project Report}\\
+  \Large  a study about text classification
+  }
+
 \maketitle
-\newpage
+\textbf{Zuowen Wang}  \hspace*{\fill} 1155123906@link.cuhk.edu.hk
+
+Computer Science Department
+
+ETH Z{\"u}rich
+\\
+
+\textbf{Xinyuan Zhang}  \hspace*{\fill} 1155123300@link.cuhk.edu.hk
+
+Engineering Department
+
+Tsinghua University
+\\
+\\
+\\
+\\
 \begin{abstract}
-Abstract section
+
+In this report we mainly conduct a study about text classification. After the proper data preprocessing procedure, we test over many mainstream feature extraction methods and combine them with classical classifiers. At last we briefly test our models trained from different corpus on several Twitter posts from a celebrity.
+
 \end{abstract}
+
+
+\begin{figure*}[!b]
+\centering
+\includegraphics[width=120mm]{cuhk_logo.png}
+\end{figure*}
+
+
+
 % 1. Introduction and related work
 %   a) what is the problem you want to solve?
 %   b) why is the problem important?
@@ -46,31 +64,93 @@ Abstract section
 %   d) what you did to solve this problem?
 %   e) how are your results compared with others?
 %   f) what is the structure of this report?
+\newpage
 \section{Introduction and Related Work}
 \subsection{What is the problem you want to solve}
-Due to the rapid development of social network these years, short to medium length texts are gradually dominating the Internet. Various user backgrounds on large social networks such as Twitter and Facebook result in difficulties recommending users the content they would like to view. One way to satisfy this demand is to extract ‘class’ from texts, namely text classification. For this project, we are going to 
+Due to the rapid development of social network these years, short to medium length texts are gradually dominating the Internet. Various user backgrounds on large social networks such as Twitter and Facebook result in difficulties recommending users the content they would like to view. One way to satisfy this demand is to extract ‘class’ from texts, namely text classification. For this project, we are going to conduct text classification for short texts. Actually, classification for short texts is more challenging than that for long text materials, because long texts provide better statistical stability both under “Bag of Words” assumption or using word embedding techniques. 
 \subsection{Why is the problem important}
-Then based on the summarized topic information, we can do further meaningful operations accordingly
+Representation learning is one of the most fundamental problems in artificial intelligence field, which is especially important for NPL (Natural Language Processing). Similarly, as a common task of NPL, text classification depends on representation learning largely. Text classification is widely used in sentiment analysis, question classification and language inference. Moreover, it’s very close to our life. With the result of text classification, we can do further meaningful operations such as web page classification, users’ reviews mining, message retrieval, information filtering and so on. Actually, we can regard text classification as the first step of interaction between computer and human language, which makes many deeper applications possible.
 \subsection{What are the previous solutions by others}
 Various previous works have tried to tackle this problem and very successful results have been achieved. This problem is fundamentally a natural language processing problem so all the feature extraction and classification methods are inherited from these well studied domains.
 
 Sriam, Fuhry, Demir, Ferhatosmanoglu and Demirbas \cite{SFDFD} use domain specific features extracted from the Twitter author's profile and text. They train and test their algorithm on a predefined set of generic classes such as News, Events, Opinions, Deals, and Private Messages. Lee, Palsetia, Narayanan, Patwary, Agrawal and Choudhary proposed in their work \cite{LPNPAC} an innovative network based approach apart from their study using classical natural language processing methods. Chen, Jin and Shen conduct their work based on the classical latent Dirichlet allocation model\cite{BNJ} by learning multi-granularity topics.\cite{CJS}
 \subsection{What you did to solve this problem}
-TODO
-\subsection{How are your results compared with others}
-TODO
+
+A general process of text classification can be described by the flow chart below.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=130mm]{process.png}
+\caption{The General Process of Text Classification }
+\end{figure}
+
+Among those steps,  how to extract features out of texts is the most essential one, which mainly consists of four types. They are rule-based features, deep learning features, semantic features and lexical features.
+
+\begin{figure}[ht]
+\includegraphics[width=150mm]{Feature.png}
+\caption{The Types of Feature Extraction}
+\end{figure}
+
+
+To sum up, our project is composed of five parts, namely preprocessing, counting, feature extracting, classifier training and testing.
+
+\begin{itemize}
+  \item \textbf{Preprocessing}\\
+  For this part, we adopted common data processing libraries in python such as pandas, numpy and textblob. By preprocessing, we eliminated dupilicates, documents with no label or with multiple labels. We also excluded punctuation, tab, digital and many other symbols. For the convenience of later analysis, the substitution and transformation of certain words is also necessary. The details about our work during preprocessing will be explained blow (see 3.3).
+  \item \textbf{Counting}\\
+  Based on the result of preprocessing, we counted word frequency of each document.
+  \item \textbf{Feature Extraction}\\
+  For this part, we tried two major means of conducting feature extraction, namely Bag-of-Word model based and word embedding based, including tree methods, namely TF-IDF, Count Vectorizor and Word2Vec, which has been mentioned above. And finally, we transformed text documents into data points, which were used to train and test classifier.
+  \item \textbf{Classifier Training and Validation}\\
+  At first, we divide data into data for training and data for testing. During the process of classifier training and testing, we have also tried several mainstream classifiers including Logistic Regression, Multinomial Naive Bayesian Classifier, SVM and so on. Actually, we want to detect which combination of feature extraction method and classifier is the best  for short text classification. We trained our models with data points after feature extracting and made cross validation. The details about our work of classifier training and testing as well as feature extracting will be all explained blow.
+  \item \textbf{Other Work}\\
+  As is mentioned above, for this project, we not only conduct text classification toward the data we have by using some data mining techniques learned in class, but also make a comparison between different combination of feature extraction method and classifier. At last, we also tested our models on other real short texts. We found some relatively more accurate methods when dealing with short text classification according to the result of comparison and analysis. They might not be state-of-the-art but are sufficient for our learning purpose. These finding and conclusions will be introduced in the Result and Analysis part (Chapter 5) and the Conclusion part (Chapter 6).
+  
+\end{itemize}
+By the end of this project, we finally achieved the following goals. Firstly, based on the methods used by other researchers,  we learned how to translate text information into feature vectors and also  how to conduct classification for short texts. Then, we tested the model with testing samples in the database and also did evaluations by using real-world examples. Through this process, we have not only got familiar some basic data mining related techniques learned in class, including data preprocessing, learning algorithms, evaluation metric etc, but also studied specific mainstream methods which are commonly used in NLP field. Moreover, the theoretical background behind these NLP and general data mining techniques was also understood by making comparison between them.
+
+
+
+
 \subsection{What is the structure of this report}
-TODO
+
+Our report is divided into 7 parts. In this part, we have already introduced the outline of our project, including our motivation, the study of previous solutions by others and also the work we have done. After that, we will start the Problem Description part in which we will redescribe our problem and goal. In the third part, we will introduce the dataset we have used in this project and also explain how we preprocessed the data. Some basic information about the dataset will be included. We will also show some brief results after preprocessing. In the forth part, we will begin to explain what we have done when conducting feature extraction and model training and testing. The algorithms we have used will be mentioned there. In the fifth part, we will show our final results and analysis. Performance of different classifiers and comparison among classifiers will be mentioned. Finally, the sixth part and seventh part is about conclusion and task allocation.
 
 
 % 2. Problem description
 %   a) define your problem formally and precisely.
 %   b) what is the goal of the project?
 \section{Problem description}
-\subsection{formal definition of our problem}
-TODO
+\subsection{Formal definition of our problem}
+Strictly speaking, to solve text classification problem, preprocessing, word counting, feature extracting and classifier training and testing is generally required.
+
+During the process of preprocessing, duplicates, document with no label or with multi  labels need to be eliminated. Furthermore, stops words such as punctuation, tab, digital and many other symbols are required to be removed. If necessary, substitution and transformation of certain words should be considered, which mainly depend on the need of later analysis. This step will influence the final result largely to some extent.
+
+After word counting, the words and its frequency will be shown in the list. The former complete document has been break into many separate words. Actually, in text classification, a labeled document is required to be represented as d=($w_{1}$,$w_{2}$,...,$w_{i}$,c), where variable or feature wi corresponds to a word in document d, and c is the class label of document d. Typically, the value of $w_{i}$ is the frequency $f_{i}$ of the word $w_{i}$ in document d. We generally use the w for the set of word in a document d, and thus a document can also be represented as (w,c).  This process is called text document representation or feature extraction. There are many methods to transform text information into data points. The ways of transforming are different, but they all share the same idea as is stated above.
+
+With the data points, classifier training and testing will be conducted in the next step. And with all these things done, we can finally evaluate the performance of models and also make comparison between them. When the model meets our requirements, we can use this model to predict other unlabeled document and then realize further practical application.
+
+
+
+
 \subsection{What is the goal of the project}
-TODO
+
+For this project, we hope to use the data mining techniques learned in class to solve some real-world problems. We finally choose short text classification as our theme, because it is of great application value in Internet Era, which has been widely applied to solve web page classification, users' review mining problem and so on. In the process of our project, we mainly adopt some mainstream methods to conduct feature extraction and classifier  training. And we hope to draw a conclusion of which the most efficient method is in terms of classification for short texts based on our results.
+
+To sum up, in terms of functionality, the goal of our project is:
+\begin{itemize}
+    \item Translate text information into feature vectors
+    \item Conduct text categorization on short texts by using different models
+    \item Do some evaluations on the learning models we use and then make comparisons
+    \item Apply our models to classify real-world examples.
+\end{itemize}
+Furthermore, in terms of learning effect, the goal of our project is:
+\begin{itemize}
+    \item Get familiar with basic data mining related techniques.
+    \item Get familiar with several kinds of text extraction methods as well as the mainstream classifiers.
+    \item Learn the theoretical background behind these NLP and general data mining techniques, especially their ranges of applications, mathematical reasoning, and modeling assumptions.
+    \item Have a better understanding of text classification problem as well as its practical application value.
+\end{itemize}
 
 % 3. Dataset and preprocessing
 %   a) what is the data source?
@@ -91,11 +171,16 @@ The Reuters-21578 dataset is stored in 22 files. For the first 21 files each con
 
 Each document contains the following tag at the very beginning:
 \bigbreak
-\small{\textbf{<REUTERS TOPICS=?? LEWISSPLIT=?? CGISPLIT=?? OLDID=?? NEWID=??>}}
+\begin{small}
+\textbf{<REUTERS TOPICS=?? LEWISSPLIT=?? CGISPLIT=?? OLDID=?? NEWID=??>}
+\end{small}
 \bigbreak
 And each document ends with:
 \bigbreak
-\small{\textbf{</REUTERS>}}
+\begin{small}
+\textbf{</REUTERS>}
+\end{small}
+
 \bigbreak
 
 In the header of each file we care more about the topics information. Each document can have multiple topics. But for our training purpose we only do single label classification. We will mention later in the section 3.3 how we solved this problem.\par The dataset is divided into the 5-fold fashion for training and validation. The important statistics about the raw dataset is shown below. Notice that we will discard all documents with no label.
@@ -169,7 +254,7 @@ Now we got proper textual documents but still it contains things we do not want 
 After we have deleted all documents with multi-labeled or no label, and also eliminated all duplicates we have 6532 training samples and 2568 validation samples left.
 
 Apart from that we also would like to see the most frequent words in the corpus. We wrote a script to achieve this which is included in the appendix B.
-\newpage
+\paragraph{}
 Using that script we get the following list:
     \begin{enumerate}
     \item ('', 319390)
@@ -257,7 +342,10 @@ D2 = "But writing the report for Techniques for data mining is tiring"\\
 D3 = "But we have to write the report"\\
 Thus we have our features here:\\
 \newline
-\footnotesize{['but', 'data', 'for', 'have', 'interesting', 'is', 'mining', 'report', 'techniques', 'the', 'tiring', 'to', 'we', 'write', 'writing']}
+\begin{footnotesize}
+['but', 'data', 'for', 'have', 'interesting', 'is', 'mining', 'report', 'techniques', 'the', 'tiring', 'to', 'we', 'write', 'writing']
+\end{footnotesize}
+
 \newpage
 And our matrix looks as follow:
 \newline
@@ -270,6 +358,45 @@ $\begin{bmatrix}
 \end{bmatrix} $
 
 \subsubsection{TF-IDF Vectorizor}
+TF-IDF (term frequency–inverse document frequency) can be summarized in one sentence. The importance of a word increases with its frequency within a document, but decreases with its frequency in the entire corpus. The formal definition is:
+\paragraph{}
+$\mathbf{tf_{i,j} = \frac{n_{i,j}}{\sum_{k}n_{k,}}}$ \paragraph{} where $n_{i,j}$ is the occurrence of this word in document $d_{j}$.
+\paragraph{}
+$\mathbf{idf_{i} = lg\tfrac{\mathbf{\begin{vmatrix}
+D
+\end{vmatrix}}}{\begin{vmatrix}
+\begin{Bmatrix}
+j:t_{i}\in d_{j}
+\end{Bmatrix}
+\end{vmatrix}}}$ 
+\paragraph{} 
+where $\begin{vmatrix}
+D
+\end{vmatrix}$ is the number of documents within the corpus, $\begin{Bmatrix}
+j:t_{i}\in d_{j}
+\end{Bmatrix}$ is the number of documents which contains word $t_{j}$.
+\newline
+\paragraph{}
+And finally, $\mathbf{tfidf_{i,j} = tf_{i,j}\times idf_{i}}$
+\paragraph{}
+If we use the TF-IDF method to vectorize the corpus mentioned in the previous section. It looks like:
+\newline
+\newline
+\setcounter{MaxMatrixCols}{20}
+$\begin{bmatrix}
+0 & 0.385 & 0.385 & 0 & 0.506 & 0.385 & 0.385 & 0 & 0.385 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0.262 & 0.262 & 0.525 & 0 & 0 & 0.262 & 0.262 & 0.262 & 0.262 & 0.262 & 0.345 & 0 & 0 & 0 & 0.345 \\
+0.317 & 0 & 0 & 0.417 & 0 & 0 & 0 & 0.317 & 0 & 0.317 & 0 & 0.417 & 0.417 & 0.417 & 0 
+\end{bmatrix} $
+\paragraph{}
+This feature extraction method also has its drawbacks. The major one is that it ignores that the importance of different positions within a document varies. Namely the exchangeability within a document is too strong.
+
+\subsubsection{Word2Vec}
+There are different ways to construct a Word2Vec embedding, but all of them involving neural networks. Word2Vec takes a corpus as input and generates a vector space, typically with several hundred of dimensions, with each unique word in the document being allocated to a corresponding vector in this space. All these word vectors will be placed in different positions such that the words that share similar indications in the corpus are located closer to each other in this vector space. It is kind of similar using the angle between two document vectors to represent their similarity but this time we accomplish this using neural networks.
+
+
+The rigorous mathematical proof will not be covered here since this is not a theory course.
+\paragraph{}
 
 % 5. Results and Analysis
 %   a) use tables and graphs.
@@ -278,18 +405,165 @@ $\begin{bmatrix}
 %   d) what knowledge have you learned from the results?
 %   e) limitations and further improvement of your project.
 \section{Results and Analysis}
-\subsection{}
-% * <wangzu@student.ethz.ch> 2018-11-26T11:02:40.895Z:
-%
-% ^.
+\subsection{Comparison Among Classifiers}
+In this section we compare predicting abilities (in terms of validation accuracy on test data set) among classifiers. First we give the basic settings of these classifiers:
+
+\begin{itemize}
+    \item \textbf{Logistic Regression (LogReg)}\\
+    penalty = L2,  tol = 0.0001
+    \item \textbf{Multinomial Naive Bayes}\\
+    additive smoothing parameter = 1.0
+    \item \textbf{SVM}\\
+    penalty parameter = 10.0, kernel = rbf, kernel coefficient = 1/number of features
+    \item \textbf{Neural Network}\\
+    hidden layer = (1024, 1024, 1024), activation function = relu, solver = adam, learning rate = adaptive 
+
+\end{itemize}
+
+Next we compare performance of classifiers based on different feature settings.
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{TF-IDF} & \textbf{LogReg} & \textbf{MulNB} & \textbf{SVM} & \textbf{ANN} \\ \hline
+\textbf{R8}     & 0.9365          & 0.8789         & 0.8250       & 0.9314       \\ \hline
+\textbf{R52}    & 0.8925          & 0.7523         & 0.7496       & 0.8793       \\ \hline
+\textbf{20N}    & 0.7262          & 0.7254         & 0.7390       & 0.7360       \\ \hline
+\end{tabular}
+\caption{Feature = TF-IDF}
+\label{label3}
+\end{table}
+\paragraph{}
+From the above Table 3 we can see that for smaller dataset, when we use TF-IDF as our feature, logistic regression is a very good model in terms of model simplicity and prediction ability. It achieved higher performance on all three dataset than Multinomial Naive Bayes classifier and SVM classifier. Perhaps with some fine tune of the latter two methods we can achieve higher accuracy but still it is quite astonishing that such a simply model (logistic regression) can perform so well. Neural Network achieved similar score as logistic regression but in terms of training speed it has an obvious drawback.
+
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{Count} & \textbf{LogReg} & \textbf{MulNB} & \textbf{SVM} & \textbf{ANN} \\ \hline
+\textbf{R8}    & 0.9525          & 0.9443         & 0.8346       & 0.9557       \\ \hline
+\textbf{R52}   & 0.9112          & 0.8267         & 0.7227       & 0.9116       \\ \hline
+\textbf{20N}   & 0.7867         &0.7468    &0.2319            &0.8945              \\ \hline
+\end{tabular}
+\caption{Feature = Count Vectorizor}
+\label{label4}
+\end{table}
+From Table 4 we observed that count vectorizor feature in general gives a better score on our three datasets. But somehow on SVM it performs surprisingly bad. One potential reason is that the corpus of 20 Newsgroups is relatively large so we got very high dimensional feature vectors. This might be resolved by dimension reduction. We save the further study for our next project.(:))
+\newpage
+\subsection{Training Sample Required}
+In many situations we do not have sufficient labeled training samples. Thus we also want to study for each classifier, how many data samples do they need in order to reach a relatively satisfying predicting score. In the following charts we show curves of number of training sample on x-axis against accuracy on y-axis. Notice that we use TF-IDF as our baseline feature extractor and the training set part of R8 as our experiment dataset, namely this training set will be further divided into 5 folds and operate cross validation on it. So we have 4500 sample documents in total.
+
+
+\begin{figure}
+  \begin{subfigure}[ht]{.55\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{logisticReg.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[ht]{.55\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{MNB.png}
+  \end{subfigure}
+
+  \medskip
+
+  \begin{subfigure}[ht]{.55\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{SVM.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[ht]{.55\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{NN.png}
+  \end{subfigure}
+\end{figure}
+
+We can see some the graphs above that Logistic Regression, Multinomial Naive Bayes and Neural Networks all require relatively smaller samples (roughly 1500 data samples) in order to achieve high accurate, while SVM needs a obviously larger amount of data to achieve higher performance.
+
+\subsection{Testing on Real Twitter Example}
+Finally we got our classifiers. Now we want to test them on real Twitter data. Unfortunately we do not have time to write script to do automated testing. But let us simply play around our model on several Twitter posts.
+
+Our corpus contains three recent posts from Donald Trump:
+\begin{quote}
+\textit{“Arizona, together with our Military and Border Patrol, is bracing for a massive surge at a NON-WALLED area. WE WILL NOT LET THEM THROUGH. Big danger. Nancy and Chuck must approve Boarder Security and the Wall.”}   
+\end{quote}
+
+\begin{quote}
+\textit{“.....considered to be the worst and most dangerous, addictive and deadly substance of them all. Last year over 77,000 people died from Fentanyl. If China cracks down on this “horror drug,” using the Death Penalty for distributors and pushers, the results will be incredible!”}   
+\end{quote}
+
+\begin{quote}
+\textit{"Hopefully OPEC will be keeping oil flows as is, not restricted. The World does not want to see, or need, higher oil prices!"}
+\end{quote}
+
+Notice that the author uses a lot of capital letters to demonstrate his emotion. But because of our preprocessing method, all capital letters will be transferred into small letters. Thus, we might lose some information.
+
+The prediction results are listed as follow:
+\begin{table}[ht]
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{TF-IDF} & \textbf{logReg} & \textbf{MultiNB} & \textbf{SVM} & \textbf{ANN} &  & \textbf{Count} & \textbf{logReg} & \textbf{MultiNB} & \textbf{SVM} & \textbf{ANN} \\ \hline
+\textbf{D1}     & earn            & trade            & earn         & earn         &  & \textbf{D1}    & earn            & acq              & earn         &earn              \\ \hline
+\textbf{D2}     & earn            & earn             & earn         & earn         &  & \textbf{D2}    & earn            & trade            & earn         &earn              \\ \hline
+\textbf{D3}     & earn            & crude            & earn         & earn         &  & \textbf{D3}    & crude           & crude            & earn         &crude              \\ \hline
+\end{tabular}
+\caption{Prediction Result Based on R8}
+\label{my-label}
+\end{table}
+
+We can see that all classifiers give us very reasonable answers. But only Multinomial Naive Bayes and Neural Networks give us "crude" for the third Twitter. And compare to "earn", "crude" seems to be a more agreeable answer. But consider the training time, Multinomial Naive Bayes might be a better choice.
+
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{TF-IDF} & \textbf{logReg} & \textbf{MultiNB} & \textbf{SVM} & \textbf{ANN} &  & \textbf{Count} & \textbf{logReg} & \textbf{MultiNB} & \textbf{SVM} & \textbf{ANN} \\ \hline
+\textbf{D1}     & earn            & trade            & earn         & earn         &  & \textbf{D1}    & earn            & acq              & earn         &earn              \\ \hline
+\textbf{D2}     & earn            & earn             & earn         & earn         &  & \textbf{D2}    & earn            & trade            & earn         &earn              \\ \hline
+\textbf{D3}     & earn            & crude            & earn         & earn         &  & \textbf{D3}    & crude           & crude            & earn         &crude              \\ \hline
+\end{tabular}
+\caption{Prediction Result Based on R52}
+\label{my-label2}
+\end{table}
+
+Similar to R8 based experiment, all classifiers give us good results. And still Multinomial Naive Bayes and Neural Networks give us "crude" for the last Twitter using both features.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{TF-IDF} & \textbf{logReg}       & \textbf{MultiNB}   & \textbf{SVM}             & \textbf{ANN}       \\ \hline
+\textbf{D1}     & rec.sport.baseball    & talk.politics.guns & comp.sys.ibm.pc.hardware & rec.sport.baseball \\ \hline
+\textbf{D2}     & rec.sport.baseball    & talk.politics.guns & comp.sys.ibm.pc.hardware & rec.sport.baseball \\ \hline
+\textbf{D3}     & comp.sys.mac.hardware & rec.autos          & comp.sys.ibm.pc.hardware & rec.sport.baseball \\ \hline
+
+\textbf{Count} & \textbf{logReg}    & \textbf{MultiNB}   & \textbf{SVM} & \textbf{ANN}       \\ \hline
+\textbf{D1}     & rec.sport.baseball & talk.politics.guns & misc.forsale & talk.politics.guns \\ \hline
+\textbf{D2}     & rec.sport.hockey   & talk.politics.guns & misc.forsale & talk.politics.guns \\ \hline
+\textbf{D3}     & rec.autos          & talk.politics.misc & misc.forsale & talk.politics.misc \\ \hline
+\end{tabular}
+\caption{Prediction Result Based on 20 Newsgroups}
+\label{my-label}
+\end{table}
+Alas! 20 Newsgroups seems not very suitable for our classification task. It forces all classifiers think that the President of America is a huge sport fan and a computer geek.But seems still Multinomial Naive Bayes and Neural Networks give us closer topics. :)
+
+\newpage
 % 6. Conclusion
 \section{Conclusion}
+Finally comes to the end of our report. In this report we have study many techniques in data mining and machine learning in general, especially in the field of natural language processing.
+Since both TF-IDF and Count Vectorizor are based on the Bag of Word model, they do not, at least on our datasets, have a big difference. But we do find that when handling with new coming documents, Multinomial Naive Bayes Model and Neural Networks generalize much better than the rest, although their scores might not be as high during cross validation. One surprising discovery is the performance of Multinomial Naive Bayes. Since Naive Bayes has in general very strong assumptions, we used to think it is good for mathematical reasoning but might not be as useful in practice. And this time we found we were wrong.
 
+Our study, off course, have some major flaws. One is we did not have enough time to explore word embedding techniques. We have read papers that word embedding techniques, in general, out perform the Bag of Word model. Another flaw is we could not think about very innovative algorithm, which makes our report rather a study than a research. But I think through this process, we have mastered the main skeleton of the natural language processing pipeline and in the future we will very likely dig deeper into it.
 
 % 7. Task Allocation
 %   a) contribution of each group member
 \section{Task Allocation}
+\hspace{4.5mm}
+Zuowen Wang is mainly in charge of conducting experiments and drafting chapter 3,4,5 of the report.
 
+Xinyuan Zhang is responsible for preparing and summarizing related materials for self-studying, drafting chapter 1,2 and formatting the report.
 
 
 % \subsection{How to write Mathematics}
@@ -306,7 +580,7 @@ $\begin{bmatrix}
 \newpage
 \appendix
 \LARGE \textbf{Appendix}
-\section{A Python Function For Preprocessing}
+\section{A Python Function For Preprocessing \cite{myself}}
 % the \\ insures the section title is centered below the phrase: AppendixA
 \begin{lstlisting}[basicstyle=\small]
 def preprocess(words):
@@ -391,5 +665,162 @@ counter = collections.Counter(superLongList)
 print(counter.most_common(20))
 \end{lstlisting}
 
+
+
+\section{A Standard Pipeline Applied in Our Project}
+\begin{lstlisting}[basicstyle=\small]
+import sklearn as sk
+import numpy
+import matplotlib
+import textblob
+import pandas as pd
+from sklearn.feature_extraction import stop_words
+import collections
+#loading dataset
+
+trainData = open('data/train/r52-train-all-terms.txt').read()
+label = []
+text = []
+for i, line in enumerate(trainData.split("\n")):
+    content = line.split()
+    label.append(content[0])
+    text.append(content[1:])
+
+train = pd.DataFrame()
+train['text'] = text
+train['label'] = label
+
+
+testData = open('data/test/r52-test-all-terms.txt').read()
+testlabel = []
+testtext = []
+for i, line in enumerate(testData.split("\n")):
+    content = line.split()
+    testlabel.append(content[0])
+    testtext.append(content[1:])
+
+test = pd.DataFrame()
+test['text'] = testtext
+test['label'] = testlabel
+
+#DATA preprocessing
+stopwords = set(stop_words.ENGLISH_STOP_WORDS)
+stopwords.add('said')
+stopwords.add('reuter')
+#remove stop words from the corpus and also words with length < 4
+for i, line in enumerate(train['text']):
+    for j, word in enumerate(line):
+        if word in stopwords or len(word) < 4:
+            line[j] = ''
+
+for i, line in enumerate(test['text']):
+    for j, word in enumerate(line):
+        if word in stopwords or len(word) < 4:
+            line[j] = ''
+
+#encoding labels
+# trainX, trainY = sk.model_selection.train_test_split(train['text'], train['label'])
+# testX, testY = sk.model_selection.train_test_split(test['text'], test['label'])
+trainX = train['text']
+trainY = train['label']
+testX = test['text']
+testY = test['label']
+
+encoder = sk.preprocessing.LabelEncoder()
+trainY = encoder.fit_transform(trainY)
+testY = encoder.fit_transform(testY)
+ 
+#Feature Engineering
+#TF-IDF, TF = (frequency of term t) / total number of terms in a document
+#        IDF = ln(total number of documents / number of documents which contains t)
+#We use Word level TF-IDF here
+# tfidfVectorizer = sk.feature_extraction.text.TfidfVectorizer(analyzer=lambda doc:doc, lowercase = False, token_pattern=r'\w{1,}', max_features=5000)
+# tfidfVectorizer.fit(pd.concat([trainX, testX]))
+#
+# trainXcv = tfidfVectorizer.transform(trainX)
+# testXcv = tfidfVectorizer.transform(testX)
+# featureExtractor = tfidfVectorizer
+# scaler = sk.preprocessing.StandardScaler(with_mean=False)
+# scaler.fit(trainXcv)
+# trainXcv = scaler.transform(trainXcv)
+# scaler.fit(testXcv)
+# testXcv = scaler.transform(testXcv)
+
+ 
+#Feature Engineering
+#count vector, every row is a document, every column is a term,
+#each entry represents the frequency count of that term in that document
+CountVectorizer = sk.feature_extraction.text.CountVectorizer
+(analyzer=lambda doc:doc, lowercase = False, token_pattern=r'\w{1,}')
+CountVectorizer.fit(pd.concat([trainX, testX]))
+
+trainXcv = CountVectorizer.transform(trainX)
+testXcv = CountVectorizer.transform(testX)
+ 
+
+# train and validate    logistic regression
+from sklearn.linear_model import LogisticRegression
+lrClassifier = LogisticRegression(penalty='l2', dual=False, tol=0.0001,
+                            C=1.0, fit_intercept=True, intercept_scaling=1,
+                            class_weight=None, random_state=None,
+                            solver='warn', max_iter=100,
+                            multi_class='warn',
+                            verbose=0, warm_start=False, n_jobs=4)
+                            
+lrClassifier.fit(trainXcv, trainY)
+prediction = lrClassifier.predict(testXcv)
+acc = sk.metrics.accuracy_score(prediction, testY)
+print("logistic regression\t, accuracy on test dataset : " + str(acc))
+
+ 
+# train and validate   Naive Bayes
+from sklearn.naive_bayes import MultinomialNB
+NBclassifier = MultinomialNB()
+NBclassifier.fit(trainXcv, trainY)
+prediction = NBclassifier.predict(testXcv)
+acc = sk.metrics.accuracy_score(prediction, testY)
+print("Multinomial NB\t, accuracy on test dataset : " + str(acc))
+ 
+#train and validate    SVM
+from sklearn.svm import SVC
+SVCclassifier = SVC(C=10.0, kernel='rbf', degree=3, gamma='auto_deprecated', 
+coef0=0.0,shrinking=True, probability=False, tol=0.0001, 
+cache_size=200,class_weight=None, verbose=False, max_iter=-1, 
+decision_function_shape='ovr',random_state=None)
+SVCclassifier.fit(trainXcv, trainY)
+prediction = SVCclassifier.predict(testXcv)
+acc = sk.metrics.accuracy_score(prediction, testY)
+print("SVC \t\t\t, accuracy on test dataset : " + str(acc))
+ 
+#train and validate    linear svm
+from sklearn.svm import LinearSVC
+linearSVCclassifier = LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+     intercept_scaling=1, loss='squared_hinge', max_iter=-1,
+     multi_class='crammer_singer', penalty='l2', random_state=0, tol=1e-05, verbose=0)
+linearSVCclassifier.fit(trainXcv, trainY)
+prediction = SVCclassifier.predict(testXcv)
+acc = sk.metrics.accuracy_score(prediction, testY)
+print("linearSVC \t\t\t, accuracy on test dataset : " + str(acc))
+
+ 
+#train and validate    ANN
+from sklearn.neural_network import MLPClassifier
+annClassifier = MLPClassifier(hidden_layer_sizes=(1024,1024,1024 ),
+activation='relu', solver='adam', alpha=0.0001,
+            batch_size='auto', learning_rate='adaptive',
+            learning_rate_init=0.001, power_t=0.5, max_iter=200,
+            shuffle=True, random_state=None, tol=0.00001, verbose=0,
+            warm_start=False, momentum=0.9,
+            nesterovs_momentum=True, early_stopping=False,
+            validation_fraction=0.1, beta_1=0.9, beta_2=0.999,
+            epsilon=1e-08, n_iter_no_change=10)
+        
+annClassifier.fit(trainXcv, trainY)
+prediction = annClassifier.predict(testXcv)
+acc = sk.metrics.accuracy_score(prediction, testY)
+print("ANN \t\t\t, accuracy on test dataset : " + str(acc))
+
+
+\end{lstlisting}
 
 \end{document}
